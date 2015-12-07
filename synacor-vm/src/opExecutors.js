@@ -23,6 +23,13 @@ const executors = {
 		fs.appendFileSync('./out.txt', char);
 	},
 	
+	jmp: function jmp(vm, args) {
+		// TODO: Check arg for validity
+		// Target is exact address where execution is to be continued
+		let target = vm.literalOrRegisterValue(args[0]) - args.length * 2;
+		vm.ip = target * 2;
+	},
+	
 	noop: function noop(vm, args) {
 		return;
 	}

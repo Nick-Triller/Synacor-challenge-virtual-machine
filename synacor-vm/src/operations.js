@@ -8,6 +8,7 @@ let opExecutors = require('./opExecutors.js')
 module.exports = {
 	0: new Operation('halt', 0, opExecutors.halt),
 	1: new Operation('set', 2, opExecutors.set),
+	6: new Operation('jmp', 1, opExecutors.jmp),
 	19: new Operation('out', 1, opExecutors.out),
 	21: new Operation('noop', 0, opExecutors.noop),
 }
