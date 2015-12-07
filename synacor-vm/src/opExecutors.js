@@ -20,7 +20,20 @@ const executors = {
 	
 	// push <a> onto the stack
 	push: function push(vm, args) {
-		vm.stack.push(args[0]);
+		let value = vm.literalOrRegisterValue(args[0]);
+		vm.stack.push(value);
+		vm.ip += 1 + args.length;
+	},
+	
+	// remove the top element from the stack and write it into <a>; empty stack = error
+	pop: function pop(vm, args) {
+		let register = args[0];
+		if (!util.isRegister(register)) {
+			throw new Error('Expected register as first argument in op pop');
+		}
+		let value = vm.stack.pop();
+		if (value == null) throw new Error('Can not execute pop because stack is empty');
+		vm.setRegister(register, value);
 		vm.ip += 1 + args.length;
 	},
 	
@@ -32,7 +45,6 @@ const executors = {
 		}
 		let b = vm.literalOrRegisterValue(args[1]); 
 		let c = vm.literalOrRegisterValue(args[2]);
-		console.log('b', b, 'c', c);
 		if (b === c) vm.setRegister(register, 1);
 		else vm.setRegister(register, 0);
 		vm.ip += 1 + args.length;
