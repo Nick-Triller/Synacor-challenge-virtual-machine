@@ -19,7 +19,8 @@ class Operation {
 	
 	// Update instruction pointer
 	updateIp(vm) {
-		vm.ip += 1 + this.argCount;
+		// 2 byte steps
+		vm.ip += 2 + this.argCount * 2;
 	}
 }
 
