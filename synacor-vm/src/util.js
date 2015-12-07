@@ -11,6 +11,16 @@ module.exports.isRegister = function isRegister(opcode) {
 	return true;
 }
 
+module.exports.isLiteralOrRegister = function isRegister(opcode) {
+	if (module.exports.isRegister(opcode)) return true;
+	if (module.exports.isLiteral(opcode)) return true;
+    return false;
+}
+
+module.exports.isValidMemoryAddress = function isValidMemoryAddress(opcode) {
+	// TODO: Implement
+}
+
 module.exports.toArrayBuffer = function toArrayBuffer(buffer) {
     var ab = new ArrayBuffer(buffer.length);
     var view = new Uint8Array(ab);

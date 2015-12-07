@@ -13,7 +13,7 @@ class SynacorVm {
 		for (let i = 32768; i < 32776; i++) {
 			this.registers[i] = 0;
 		}
-		// Instruction pointer (byte)
+		// Instruction pointer
 		this.ip = 0;
 		// Unbounded stack which holds 16-bit values
 		this.stack = [];
@@ -34,7 +34,7 @@ class SynacorVm {
 	executeStep() {
 		// TODO: Check register and memory health on each step
 		logger.log('debug', `IP ${this.ip}`);
-		const opcode = parseInt(this.ram.getUint16(this.ip, true));
+		const opcode = parseInt(this.readMemory(this.ip));
 		logger.log('debug', `Opcode ${opcode}`);
 		const operation = operations[opcode];
 		if (operation == null) {
@@ -45,14 +45,12 @@ class SynacorVm {
 		// Read arguments
 		let args = [];
 		for (let i = 1; i <= argCount; ++i) {
-			let arg = this.ram.getUint16(this.ip + i * 2, true);
-			logger.log('debug', 'Reading arg at ' + (this.ip + i * 2) + ': ' + arg);
+			let arg = this.readMemory(this.ip + i);
+			logger.log('debug', 'Reading arg at ' + (this.ip + i) + ': ' + arg);
 			args.push(arg);
 		}
 		// Execute op
 		operations[opcode].execute(this, args);
-		// Update instruction pointer
-		operations[opcode].updateIp(this);
 		logger.log('debug', '-------------');
 	}
 
@@ -62,8 +60,23 @@ class SynacorVm {
 		throw new Error('Invalid opcode in literalOrRegisterValue: ' + opcode);
 	}
 
+	readMemory(address) {
+		// TODO: Implement range check
+		address *= 2;
+		return this.ram.getUint16(address, true);
+	}
+
+	writeMemory(address, value) {
+		address *= 2;
+		if (!util.isLiteralOrRegister(value)) {
+			throw new Error('Invalid value in writeMemory: ' + value);
+		}
+		this.ram.setUint16(address, value, true);
+	}
+
 	setRegister(opcode, value) {
 		if (opcode < 32768 || opcode > 32775) throw new Error('Invalid arg index in setRegister: ' + opcode);
+		logger.log('debug', `Setting register ${opcode-32768} to ${value}`);
 		this.registers[opcode] = value;
 	}
 
@@ -72,12 +85,12 @@ class SynacorVm {
 		return this.registers[opcode];
 	}
 
-	// buffer 16-bit little-endian pair (low byte, high byte)
 	loadProgram(arrBuffer) {
 		const view = new DataView(arrBuffer);
 		// TODO: reset memory
-		for (let i = 0; i < view.byteLength; i += 2) {
-			this.ram.setUint16(i, view.getUint16(i));
+		for (let i = 0; i < view.byteLength/2; ++i) {
+			let value = view.getUint16(i*2, true);
+			this.writeMemory(i, value);
 		}
 	}
 

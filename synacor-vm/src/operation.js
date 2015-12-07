@@ -17,12 +17,6 @@ class Operation {
 		this.executor(vm, args);
 	}
 	
-	// Update instruction pointer
-	updateIp(vm) {
-		// 2 byte steps
-		vm.ip += 2 + this.argCount * 2;
-	}
-	
 }
 
 module.exports = Operation;
