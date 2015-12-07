@@ -106,6 +106,19 @@ const executors = {
 		vm.ip += 1 + args.length;
 	},
 	
+	// stores into <a> the bitwise and of <b> and <c>
+	and: function and(vm, args) {
+		let register = args[0];
+		if (!util.isRegister(register)) {
+			throw new Error('Expected register as first argument in op and');
+		}
+		let b = vm.literalOrRegisterValue(args[1]); 
+		let c = vm.literalOrRegisterValue(args[2]);
+		let result = b & c;
+		vm.setRegister(register, result);
+		vm.ip += 1 + args.length;
+	},
+	
 	// if <a> is zero, jump to <b>
 	jf: function jf(vm, args) {
 		let condition = vm.literalOrRegisterValue(args[0]);
