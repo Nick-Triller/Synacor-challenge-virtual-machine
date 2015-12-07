@@ -99,8 +99,6 @@ const executors = {
 		}
 		let b = vm.literalOrRegisterValue(args[1]); 
 		let c = vm.literalOrRegisterValue(args[2]);
-		console.log('B', b);
-		console.log('C', c);
 		let result = (c+b) % 32768;
 		vm.setRegister(register, result);
 		vm.ip += 1 + args.length;
@@ -115,6 +113,19 @@ const executors = {
 		let b = vm.literalOrRegisterValue(args[1]); 
 		let c = vm.literalOrRegisterValue(args[2]);
 		let result = b & c;
+		vm.setRegister(register, result);
+		vm.ip += 1 + args.length;
+	},
+	
+	// stores into <a> the bitwise or of <b> and <c>
+	or: function or(vm, args) {
+		let register = args[0];
+		if (!util.isRegister(register)) {
+			throw new Error('Expected register as first argument in op and');
+		}
+		let b = vm.literalOrRegisterValue(args[1]); 
+		let c = vm.literalOrRegisterValue(args[2]);
+		let result = b | c;
 		vm.setRegister(register, result);
 		vm.ip += 1 + args.length;
 	},
