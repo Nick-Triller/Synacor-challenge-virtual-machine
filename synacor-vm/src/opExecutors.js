@@ -50,6 +50,19 @@ const executors = {
 		vm.ip += 1 + args.length;
 	},
 	
+	// set <a> to 1 if <b> is greater than <c>; set it to 0 otherwise
+	gt: function gt(vm, args) {
+		const register = args[0];
+		if (!util.isRegister(register)) {
+			throw new Error('Expected register as first argument in op eq');
+		}
+		let b = vm.literalOrRegisterValue(args[1]); 
+		let c = vm.literalOrRegisterValue(args[2]);
+		if (b > c) vm.setRegister(register, 1);
+		else vm.setRegister(register, 0);
+		vm.ip += 1 + args.length;
+	},
+	
 	out: function out(vm, args) {
 		const fs = require('fs');
 		let value = vm.literalOrRegisterValue(args[0]);

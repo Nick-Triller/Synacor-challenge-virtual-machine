@@ -11,6 +11,7 @@ module.exports = {
 	2: new Operation('push', 1, opExecutors.push),
 	3: new Operation('pop', 1, opExecutors.pop),	
 	4: new Operation('eq', 3, opExecutors.eq),
+	5: new Operation('gt', 3, opExecutors.gt),
 	6: new Operation('jmp', 1, opExecutors.jmp),
 	7: new Operation('jt', 2, opExecutors.jt),
 	8: new Operation('jf', 2, opExecutors.jf),	
