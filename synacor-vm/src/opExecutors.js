@@ -18,6 +18,12 @@ const executors = {
 		vm.ip += 1 + args.length;
 	},
 	
+	// push <a> onto the stack
+	push: function push(vm, args) {
+		vm.stack.push(args[0]);
+		vm.ip += 1 + args.length;
+	},
+	
 	// set <a> to 1 if <b> is equal to <c>; set it to 0 otherwise
 	eq: function eq(vm, args) {
 		const register = args[0];
