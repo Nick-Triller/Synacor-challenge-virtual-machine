@@ -1,0 +1,17 @@
+{
+  "name": "synacor-vm",
+  "version": "0.0.1",
+  "description": "Synacor challenge vm implementation",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "Nick Triller",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "winston": "^2.1.1"
+  }
+}
