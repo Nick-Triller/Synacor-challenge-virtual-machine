@@ -130,6 +130,44 @@ const executors = {
 		vm.ip += 1 + args.length;
 	},
 	
+	// stores 15-bit bitwise inverse of <b> in <a>
+	not: (vm, args) => {
+		let register = args[0];
+		if (!util.isRegister(register)) {
+			throw new Error('Expected register as first argument in op not');
+		}
+		let value = vm.literalOrRegisterValue(args[1]);
+		
+		let bitstring = "";
+		while (value > 0 )
+		{
+			// Modulo
+			let bit = value % 2 ;
+			// Div
+			let quotient = Math.floor(value/2);
+			bitstring += bit.toString();
+			value = quotient;
+		}
+		// Fill bitstring with zeros
+		while (bitstring.length < 15) {
+			bitstring += '0';
+		}
+		// Reverse
+		bitstring.split('').reverse().join('');
+		// Invert
+		bitstring = bitstring.replace(/0/g, 'x');
+		bitstring = bitstring.replace(/1/g, '0');
+		bitstring = bitstring.replace(/x/g, '1');
+		// Convert bitstring to number
+		value = 0;
+		for(let i = 0; i < bitstring.length; i++) {
+			value += parseInt(bitstring[i]) *  Math.pow(2, i);
+		}
+		
+		vm.setRegister(register, value);
+		vm.ip += 1 + args.length;
+	},
+	
 	// if <a> is zero, jump to <b>
 	jf: function jf(vm, args) {
 		let condition = vm.literalOrRegisterValue(args[0]);
