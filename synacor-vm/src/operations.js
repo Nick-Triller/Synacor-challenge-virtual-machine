@@ -21,6 +21,7 @@ module.exports = {
 	12: new Operation('and', 3, opExecutors.and),	
 	13: new Operation('or', 3, opExecutors.or),		
 	14: new Operation('not', 2, opExecutors.not),		
+	15: new Operation('rmem', 2, opExecutors.rmem),		
 	17: new Operation('call', 1, opExecutors.call),		
 	19: new Operation('out', 1, opExecutors.out),
 	21: new Operation('noop', 0, opExecutors.noop),

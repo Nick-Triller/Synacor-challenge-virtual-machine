@@ -193,6 +193,20 @@ const executors = {
 		vm.ip += 1 + args.length;
 	},
 	
+	// read memory at address <b> and write it to <a>
+	rmem: function rmem(vm, args) {
+		let writeTarget = args[0];
+		let readAddress = vm.literalOrRegisterValue(args[1]);
+		let memory = vm.readMemory(readAddress);
+		if (util.isRegister(writeTarget)) {
+			vm.setRegister(writeTarget, memory);
+		}
+		else if (util.isLiteral(writeTarget)) {
+			vm.setMemory(writeTarget, memory)
+		}
+		vm.ip += 1 + args.length;
+	},
+	
 	// write the address of the next instruction to the stack and jump to <a>
 	call: function call(vm, args) {
 		vm.stack.push(vm.ip + 1 + args.length);
