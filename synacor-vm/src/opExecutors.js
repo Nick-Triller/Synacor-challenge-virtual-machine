@@ -104,6 +104,32 @@ const executors = {
 		vm.ip += 1 + args.length;
 	},
 	
+	// store into <a> the product of <b> and <c> (modulo 32768)
+	mult: function mult(vm, args) {
+		let register = args[0];
+		if (!util.isRegister(register)) {
+			throw new Error('Expected register as first argument in op mult');
+		}
+		let b = vm.literalOrRegisterValue(args[1]); 
+		let c = vm.literalOrRegisterValue(args[2]);
+		let result = (c*b) % 32768;
+		vm.setRegister(register, result);
+		vm.ip += 1 + args.length
+	},
+	
+	// store into <a> the remainder of <b> divided by <c>
+	mod: function mod(vm, args) {
+		let register = args[0];
+		if (!util.isRegister(register)) {
+			throw new Error('Expected register as first argument in op mult');
+		}
+		let b = vm.literalOrRegisterValue(args[1]); 
+		let c = vm.literalOrRegisterValue(args[2]);
+		let result = b % c;
+		vm.setRegister(register, result);
+		vm.ip += 1 + args.length;
+	},
+	
 	// stores into <a> the bitwise and of <b> and <c>
 	and: function and(vm, args) {
 		let register = args[0];
@@ -160,12 +186,18 @@ const executors = {
 		bitstring = bitstring.replace(/x/g, '1');
 		// Convert bitstring to number
 		value = 0;
-		for(let i = 0; i < bitstring.length; i++) {
+		for (let i = 0; i < bitstring.length; i++) {
 			value += parseInt(bitstring[i]) *  Math.pow(2, i);
 		}
-		
 		vm.setRegister(register, value);
 		vm.ip += 1 + args.length;
+	},
+	
+	// write the address of the next instruction to the stack and jump to <a>
+	call: function call(vm, args) {
+		vm.stack.push(vm.ip + 1 + args.length);
+		let address = vm.literalOrRegisterValue(args[0]);
+		vm.ip = address;
 	},
 	
 	// if <a> is zero, jump to <b>

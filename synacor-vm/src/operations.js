@@ -16,9 +16,12 @@ module.exports = {
 	7: new Operation('jt', 2, opExecutors.jt),
 	8: new Operation('jf', 2, opExecutors.jf),	
 	9: new Operation('add', 3, opExecutors.add),	
+	10: new Operation('mult', 3, opExecutors.mult),	
+	11: new Operation('mod', 3, opExecutors.mod),	
 	12: new Operation('and', 3, opExecutors.and),	
 	13: new Operation('or', 3, opExecutors.or),		
 	14: new Operation('not', 2, opExecutors.not),		
+	17: new Operation('call', 1, opExecutors.call),		
 	19: new Operation('out', 1, opExecutors.out),
 	21: new Operation('noop', 0, opExecutors.noop),
 }
