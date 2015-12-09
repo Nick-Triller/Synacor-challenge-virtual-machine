@@ -197,13 +197,24 @@ const executors = {
 	rmem: function rmem(vm, args) {
 		let writeTarget = args[0];
 		let readAddress = vm.literalOrRegisterValue(args[1]);
-		let memory = vm.readMemory(readAddress);
+		let value = vm.readMemory(readAddress);
 		if (util.isRegister(writeTarget)) {
-			vm.setRegister(writeTarget, memory);
+			vm.setRegister(writeTarget, value);
 		}
 		else if (util.isLiteral(writeTarget)) {
-			vm.setMemory(writeTarget, memory)
+			vm.writeMemory(writeTarget, value)
 		}
+		else {
+			throw new Error('Invalid write target in rmem');
+		}
+		vm.ip += 1 + args.length;
+	},
+	
+	// write the value from <b> into memory at address <a>
+	wmem: function wmem(vm, args) {
+		let targetAddress = vm.literalOrRegisterValue(args[0]);
+		let value = vm.literalOrRegisterValue(args[1]);
+		vm.writeMemory(targetAddress, value);
 		vm.ip += 1 + args.length;
 	},
 	
