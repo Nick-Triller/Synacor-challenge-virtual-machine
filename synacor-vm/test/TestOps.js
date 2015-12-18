@@ -128,35 +128,59 @@ describe('Operation', () => {
   });
 
   describe('add', () => {
-    it('should increment the instruction pointer by 4');
+    it('should increment the instruction pointer by 4', () => {
+      let vm = getVmWithProgram([9 /* Add */, 32768 /* Register 0 */, 1 , 1]);
+      assertChangesIp(vm, 4);
+    });
   });
 
   describe('mult', () => {
-    it('should increment the instruction pointer by 4');
+    it('should increment the instruction pointer by 4', () => {
+      let vm = getVmWithProgram([10 /* Mult */, 32768 /* Register 0 */, 1 , 1]);
+      assertChangesIp(vm, 4);
+    });
   });
 
   describe('mod', () => {
-    it('should increment the instruction pointer by 4');
+    it('should increment the instruction pointer by 4', () => {
+      let vm = getVmWithProgram([11 /* Mod */, 32768 /* Register 0 */, 1 , 1]);
+      assertChangesIp(vm, 4);
+    });
   });
 
   describe('and', () => {
-    it('should increment the instruction pointer by 4');
+    it('should increment the instruction pointer by 4', () => {
+      let vm = getVmWithProgram([12 /* And */, 32768 /* Register 0 */, 1 , 1]);
+      assertChangesIp(vm, 4);
+    });
   });
 
   describe('or', () => {
-    it('should increment the instruction pointer by 4');
+    it('should increment the instruction pointer by 4', () => {
+      let vm = getVmWithProgram([13 /* Or */, 32768 /* Register 0 */, 1 , 1]);
+      assertChangesIp(vm, 4);
+    });
   });
 
   describe('not', () => {
-    it('should increment the instruction pointer by 3');
+    it('should increment the instruction pointer by 3', () => {
+      let vm = getVmWithProgram([14 /* Not */, 32768 /* Register 0 */, 1 /* Value */]);
+      assertChangesIp(vm, 3);
+    });
   });
 
   describe('rmem', () => {
-    it('should increment the instruction pointer by 3');
+    it('should increment the instruction pointer by 3', () => {
+      let vm = getVmWithProgram([15 /* Rmem */, 32768 /* Register 0 */, 1 /* Address */]);
+      assertChangesIp(vm, 3);
+    });
   });
 
   describe('wmem', () => {
-    it('should increment the instruction pointer by 3');
+    it('should increment the instruction pointer by 3', () => {
+      let vm = getVmWithProgram([16 /* Wmem */, 1 /* Address */, 2000 /* Value */]);
+      assertChangesIp(vm, 3);
+    });
   });
 
   describe('call', () => {
@@ -168,7 +192,10 @@ describe('Operation', () => {
   });
 
   describe('out', () => {
-    it('should increment the instruction pointer by 2');
+    it('should increment the instruction pointer by 2', () => {
+      let vm = getVmWithProgram([19 /* Out */, 65 /* Char A */]);
+      assertChangesIp(vm, 2);
+    });
   });
 
   describe('in', () => {
