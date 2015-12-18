@@ -63,5 +63,6 @@ noop | 21 | - | no operation
 ## ToDo
 - Tests
 - Refactoring vm for easier testing
+- Add error types
 - Finish implementation
 - DocStrings
