@@ -57,5 +57,12 @@ wmem | 16 | a b | write the value from \<b\> into memory at address \<a\>
 call | 17 | a | write the address of the next instruction to the stack and jump to \<a\>
 ret | 18 | - | remove the top element from the stack and jump to it; empty stack = halt
 out | 19 | a | write the character represented by ascii code <a> to the terminal
-in | 20 | a | read a character from the terminal and write its ascii code to <a>; it can be assumed that once input starts, it will continue until a newline is encountered; this means that you can safely read whole lines from the keyboard and trust that they will be fully read
+in | 20 | a | read a character from the terminal and write its ascii code to \<a\>; it can be assumed that once input starts, it will continue until a newline is encountered; this means that you can safely read whole lines from the keyboard and trust that they will be fully read
 noop | 21 | - | no operation
+
+## ToDo
+- Tests
+- Refactoring vm for easier testing
+- Add error types
+- Finish implementation
+- DocStrings
