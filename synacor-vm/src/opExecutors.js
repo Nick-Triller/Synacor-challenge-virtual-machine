@@ -3,10 +3,13 @@
 let util = require('./util.js');
 
 const executors = {
+	
+	// stop execution and terminate the program
 	halt: function halt(vm, args) {
 		vm.halt = true;
 	},
 	
+	// set register <a> to the value of <b>
 	set: function set(vm, args) {
 		const register = args[0];
 		let value = vm.literalOrRegisterValue(args[1]);
@@ -14,7 +17,6 @@ const executors = {
 			throw new Error('Expected register as first argument in op set');
 		}
 		vm.setRegister(register, value);
-		// Update ip
 		vm.ip += 1 + args.length;
 	},
 	
@@ -63,19 +65,19 @@ const executors = {
 		vm.ip += 1 + args.length;
 	},
 	
+	// write the character represented by ascii code to the terminal
 	out: function out(vm, args) {
 		const fs = require('fs');
 		let value = vm.literalOrRegisterValue(args[0]);
 		let char = String.fromCharCode(value);
 		fs.appendFileSync('./out.txt', char);
-		// Update ip
 		vm.ip += 1 + args.length;
 	},
 	
+	// jump to <a>
 	jmp: function jmp(vm, args) {
 		// TODO: Check arg for validity
 		let target = vm.literalOrRegisterValue(args[0]);
-		// Update ip
 		vm.ip = target;
 	},
 	
@@ -237,8 +239,8 @@ const executors = {
 		}
 	},
 	
+	// no operation
 	noop: function noop(vm, args) {
-		// Update ip
 		vm.ip += 1;
 		return;
 	}

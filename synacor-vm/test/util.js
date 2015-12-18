@@ -22,7 +22,7 @@ module.exports.createProgram = (opArray) => {
   return buf;
 }
 
-module.exports.assertChangesIp = (vmWithProgram, expectedIp) => {
+module.exports.assertRunAndChangesIp = (vmWithProgram, expectedIp) => {
   vmWithProgram.execute();
   let ipAfter = vmWithProgram.ip;
   assert.equal(ipAfter, expectedIp, 'Instruction pointer was not changed to expected value');
