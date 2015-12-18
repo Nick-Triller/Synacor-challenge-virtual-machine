@@ -60,12 +60,22 @@ class SynacorVm {
 		throw new Error('Invalid opcode in literalOrRegisterValue: ' + opcode);
 	}
 
+	/**
+	* Read memory at address
+	* @param {number} address - The memory address from which to read
+	* @returns {number}
+	*/
 	readMemory(address) {
 		// TODO: Implement range check
 		address *= 2;
 		return this.ram.getUint16(address, true);
 	}
 
+	/**
+	* Write memory at address
+	* @param {number} address - The memory address to which to write
+	* @param {number} value - The value that shall be written into memory
+	*/
 	writeMemory(address, value) {
 		address *= 2;
 		if (!util.isLiteralOrRegister(value)) {
@@ -87,7 +97,6 @@ class SynacorVm {
 
 	loadProgram(arrBuffer) {
 		const view = new DataView(arrBuffer);
-		// TODO: reset memory
 		for (let i = 0; i < view.byteLength/2; ++i) {
 			let value = view.getUint16(i*2, true);
 			this.writeMemory(i, value);
@@ -98,6 +107,17 @@ class SynacorVm {
 		let buffer = fs.readFileSync(path);
 		let arrBuffer = util.toArrayBuffer(buffer);
 		this.loadProgram(arrBuffer);
+	}
+	
+	dumpRegisters() {
+		logger.log('debug',  '  Dumping registers');
+		for (let register=32768; register < 32768+8; register++) {
+			logger.log('debug', `  Register ${register} (${register-32768}): ` + this.registers[register]);
+		}
+	}
+	
+	dumpMemory() {
+		
 	}
 }
 
