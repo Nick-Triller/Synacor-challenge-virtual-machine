@@ -342,6 +342,15 @@ describe('Operation', () => {
       // Address of next instruction on stack
       assert.equal(vm.stack[0], 2);
     });
+    
+    it('should use the register content as target if a is a register', () => {
+      let vm = getVmWithProgram([17 /* Call */, 32768 /* Target, register 0 */, 0 /* Halt */, 0 /* Halt */]);
+      vm.setRegister(32768, 3);
+      // Jumped to address in register a
+      assertRunAndChangesIp(vm, 3);
+      // Address of next instruction on stack
+      assert.equal(vm.stack[0], 2);
+    });
   });
 
   describe('ret', () => {
