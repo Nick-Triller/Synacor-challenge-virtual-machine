@@ -66,3 +66,5 @@ noop | 21 | - | no operation
 - Add error types
 - Finish implementation
 - DocStrings
+- Disassembler
+- Debugger
