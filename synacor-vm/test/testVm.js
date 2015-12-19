@@ -16,7 +16,7 @@ describe('Virtual machine', () => {
   });
 
   describe('loadProgram', () => {
-    
+
   });
 
   describe('setRegister', () => {

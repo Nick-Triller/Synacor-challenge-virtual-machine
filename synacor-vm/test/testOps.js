@@ -158,9 +158,9 @@ describe('Operation', () => {
       vm.execute();
       assert.equal(vm.ip, 3, 'Unexpected instruction pointer value');
     });
-    
+
     it('should use the register value as target if arg a is a register');
-    
+
     it('should throw an error if target is invalid');
   });
 
@@ -176,7 +176,7 @@ describe('Operation', () => {
       vm.execute();
       assert.equal(vm.ip, 3, 'Unexpected instruction pointer value')
     });
-    
+
     it('should use the register value as target if arg b is a register', () => {
       let vm = getVmWithProgram([7 /* Jt */, 1 /* Non-zero */, 32768 /* Register 0 */, 0 /* Halt */, 0 /* Halt */]);
       // b is a register
@@ -184,7 +184,7 @@ describe('Operation', () => {
       vm.execute();
       assert.equal(vm.ip, 4, 'Unexpected instruction pointer value');
     });
-    
+
     it('should use the register content for the condition check if arg a is a register', () => {
       let vm = getVmWithProgram([7 /* Jt */, 32768 /* Register 0 */, 4 /* Register 0 */, 0 /* Halt */, 0 /* Halt */]);
       // a is a register with non-zero value, therefore a jump should be execute
@@ -209,7 +209,7 @@ describe('Operation', () => {
       vm.execute();
       assert.equal(vm.ip, 3, 'Unexpected instruction pointer value')
     });
-    
+
     it('should use the register value as target if arg a is a register', () => {
       let vm = getVmWithProgram([8 /* Jf */, 32768 /* Register 0 */, 0 /* Halt */, 0 /* Halt */]);
       // a is a register
@@ -217,7 +217,7 @@ describe('Operation', () => {
       vm.execute();
       assert.equal(vm.ip, 3, 'Unexpected instruction pointer value');
     });
-    
+
     it('should throw an error if target is invalid');
   });
 
@@ -227,14 +227,14 @@ describe('Operation', () => {
       let iThrowError = () => vm.execute();
       assert.throws(iThrowError, Error);
     });
-    
+
     it('should sum numbers', () => {
       let vm = getVmWithProgram([9 /* Add */, 32768 /* Register 0 */, 25, 50]);
       vm.execute();
       let result = vm.readRegister(32768);
       assert.equal(result, 75, 'Unexpected result or result not in register');
     });
-    
+
     it('should make calculations with modulo 32768', () => {
       let vm = getVmWithProgram([9 /* Add */, 32768 /* Register 0 */, 32760, 50]);
       vm.execute();
@@ -242,7 +242,7 @@ describe('Operation', () => {
       let expectedResult = (32760 + 50) % 32768;
       assert.equal(result, expectedResult, 'Unexpected result or result not in register');
     });
-    
+
     it('should use the register values if b and/or c are registers', () => {
       let vm = getVmWithProgram([9 /* Add */, 32768 /* Register 0 */, 32769 /* Register 1 */, 32770 /* Register 2 */]);
       // b and c are registers
@@ -252,7 +252,7 @@ describe('Operation', () => {
       let result = vm.readRegister(32768);
       assert.equal(result, 15, 'Register 0 (result) should have been set 15');
     });
-    
+
     it('should increment the instruction pointer by 4', () => {
       let vm = getVmWithProgram([9 /* Add */, 32768 /* Register 0 */, 1, 1]);
       assertRunAndChangesIp(vm, 4);
@@ -267,7 +267,7 @@ describe('Operation', () => {
       let expectedResult = (30000 * 30000) % 32768;
       assert.equal(result, expectedResult, 'Unexpected result or result not in register');
     });
-    
+
     it('should use the register values if b and/or c are registers', () => {
       let vm = getVmWithProgram([10 /* Add */, 32768 /* Register 0 */, 32769 /* Register 1 */, 32770 /* Register 2 */]);
       // b and c are registers
@@ -277,7 +277,7 @@ describe('Operation', () => {
       let result = vm.readRegister(32768);
       assert.equal(result, 50, 'Register 0 (result) should have been set 50');
     });
-    
+
     it('should increment the instruction pointer by 4', () => {
       let vm = getVmWithProgram([10 /* Mult */, 32768 /* Register 0 */, 1, 1]);
       assertRunAndChangesIp(vm, 4);
@@ -286,7 +286,7 @@ describe('Operation', () => {
 
   describe('mod', () => {
     it('should use the register values if b and/or c are registers');
-    
+
     it('should increment the instruction pointer by 4', () => {
       let vm = getVmWithProgram([11 /* Mod */, 32768 /* Register 0 */, 1, 1]);
       assertRunAndChangesIp(vm, 4);
@@ -295,7 +295,7 @@ describe('Operation', () => {
 
   describe('and', () => {
     it('should use the register values if b and/or c are registers');
-    
+
     it('should increment the instruction pointer by 4', () => {
       let vm = getVmWithProgram([12 /* And */, 32768 /* Register 0 */, 1, 1]);
       assertRunAndChangesIp(vm, 4);
@@ -304,7 +304,7 @@ describe('Operation', () => {
 
   describe('or', () => {
     it('should use the register values if b and/or c are registers');
-    
+
     it('should increment the instruction pointer by 4', () => {
       let vm = getVmWithProgram([13 /* Or */, 32768 /* Register 0 */, 1, 1]);
       assertRunAndChangesIp(vm, 4);
@@ -313,7 +313,7 @@ describe('Operation', () => {
 
   describe('not', () => {
     it('should use the register value if b is a register');
-    
+
     it('should increment the instruction pointer by 3', () => {
       let vm = getVmWithProgram([14 /* Not */, 32768 /* Register 0 */, 1 /* Value */]);
       assertRunAndChangesIp(vm, 3);
@@ -342,7 +342,7 @@ describe('Operation', () => {
       // Address of next instruction on stack
       assert.equal(vm.stack[0], 2);
     });
-    
+
     it('should use the register content as target if a is a register', () => {
       let vm = getVmWithProgram([17 /* Call */, 32768 /* Target, register 0 */, 0 /* Halt */, 0 /* Halt */]);
       vm.setRegister(32768, 3);
